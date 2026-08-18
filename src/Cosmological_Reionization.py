@@ -27,3 +27,23 @@ def dt_dz(z): #In yr
 
 def Test_Clump(z):
     return 3
+
+### Optical Depth Calculation
+
+sigma_T = 6.65 * 10 ** (-25) #in cm^2
+sigma_T = sigma_T * cu.cmToMpc ** 2
+
+def H_units(z): #in km/s/Mpc
+    return cosmo.H(z) / (cu.YrTos) * (cu.kmToMpc)
+
+def n_e(z, f_HII):
+    return f_HII * 0.75 * cosmo.Om_b * cosmo.rho_c * (1 + z) ** 3 / (cosmo.m_p * kgToSM)
+
+def OpticalDepth_integrand(z, f_HII):
+    integrand_vals = np.zeros(len(z))
+    for i in range(len(z)):
+        integrand_vals[i] = n_e(z[i], f_HII[i]) * sigma_T * (cu.c * mTokm) * 1 / ((1 + z[i]) * H_units(z[i]))
+    return integrand_vals
+
+def OpticalDepth(z_arr, f_HII_arr):
+    return np.trapezoid(f_HII_arr, z_arr)

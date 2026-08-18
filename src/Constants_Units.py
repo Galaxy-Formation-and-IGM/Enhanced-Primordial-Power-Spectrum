@@ -8,6 +8,8 @@ SMTokg = 1 / kgToSM
 ## Distance
 
 cmToMpc = 3.24 * 10 ** (-25)
+mTokm = 10 ** (-3)
+kmToMpc = 3.086 * 10 ** 19
 
 ## Time
 
